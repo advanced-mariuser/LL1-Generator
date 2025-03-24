@@ -1,10 +1,12 @@
 include(AddCatch2)
 
+file(GLOB_RECURSE TEST_FILES "*.cpp")
+
 file(GLOB_RECURSE MODULES_FILES ../modules/*.cpp ../modules/*.h)
 
 add_executable(
         unit_tests
-        #названия тестов
+        ${TEST_FILES}
         ${MODULES_FILES}
 )
 target_link_libraries(
