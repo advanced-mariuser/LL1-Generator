@@ -130,7 +130,8 @@ void Lexer::ScanInput(std::istream& input)
         }
     }
 
-    PushToken(lexem, row, pos);
+    std::string end = "end";
+    PushToken(end, row, pos);
 }
 
 std::vector<Token> Lexer::GetTokenList()
@@ -142,7 +143,14 @@ void Lexer::PushToken(std::string& lexem, int row, int pos)
 {
     if (!lexem.empty())
     {
-        m_tokenList.push_back(CreateToken(lexem, row, pos));
-        lexem = "";
+        if (lexem == "end")
+        {
+            m_tokenList.emplace_back(TokenType::END, lexem, row, pos);
+        }
+        else
+        {
+            m_tokenList.push_back(CreateToken(lexem, row, pos));
+            lexem = "";
+        }
     }
 }

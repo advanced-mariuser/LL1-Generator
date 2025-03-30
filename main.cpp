@@ -4,6 +4,7 @@
 #include "SyntacticRecognizer.h"
 #include "CSVParser.h"
 #include "Lexer.h"
+#include "TokensConnector.h"
 
 struct Args
 {
@@ -37,10 +38,12 @@ int main(int argc, char* argv[])
         lexer.ScanInput(input);
         auto tokens = lexer.GetTokenList();
 
+        auto convertedTokens = TokensConnector::ConvertTokens(tokens);
+
         CSVParser csvParser("modules/ll1_table.csv");
         std::map<size_t, TableRow> table = csvParser.GetTable();
 
-        SyntacticRecognizer recognizer(table, tokens);
+        SyntacticRecognizer recognizer(table, convertedTokens);
         if (recognizer.Parse())
         {
             std::cout << "Ok. Input is valid." << std::endl;

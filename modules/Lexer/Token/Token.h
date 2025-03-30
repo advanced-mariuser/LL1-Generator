@@ -6,7 +6,7 @@
 class Token
 {
 public:
-    Token(TokenType type, std::string  data, int row, int pos)
+    Token(TokenType type, std::string data, int row, int pos)
             : m_type(type),
               m_data(std::move(data)),
               m_row(row),
@@ -22,6 +22,11 @@ public:
     [[nodiscard]] const std::string& GetData() const
     {
         return m_data;
+    }
+
+    void SetData(const std::string& data)
+    {
+        m_data = data;
     }
 
     [[nodiscard]] int GetRow() const

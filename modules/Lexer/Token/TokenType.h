@@ -32,6 +32,7 @@ enum class TokenType
     DIV,
     NOT,
     ERROR,
+    END,
 };
 
 inline static std::vector<std::pair<TokenType, std::regex>> tokenTypeToRegexMap
