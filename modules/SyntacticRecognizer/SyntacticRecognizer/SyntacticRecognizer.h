@@ -2,36 +2,31 @@
 #define SYNTACTICRECOGNIZER_H
 
 #include "TableRow.h"
-#include "Token/Token.h"
 
 class SyntacticRecognizer
 {
 public:
-    explicit SyntacticRecognizer(const std::map<int, TableRow> &table);
+    explicit SyntacticRecognizer(const std::map<size_t, TableRow>& table);
 
-    bool Parse(const std::vector<Token>& tokens);
+    bool Parse(const std::string& input);
 
 private:
-    std::map<int, TableRow> m_table;
-    std::vector<int> m_stack;
-    std::vector<int> m_stateStack;
-    size_t m_inputPosition{};
+    std::map<size_t, TableRow> m_table;
+    std::vector<size_t> m_stack;
+    size_t m_currentState = 1;
+    size_t m_inputPosition = 0;
 
-    void Initialize();
+    bool ProcessState(size_t currentState, const std::string& input);
 
-    bool ProcessState(int currentState, const std::vector<Token>& tokens);
+    bool HandleShift(const std::string& input);
 
-    bool HandleShift(const std::vector<Token>& tokens);
+    void HandlePointerAndStack(const TableRow& row, size_t currentState);
 
-    void HandlePointerAndStack(const TableRow &row, int currentState);
+    static void PrintTrace(const std::string& message);
 
-    static void PrintTrace(const std::string &message) ;
+    bool IsStateNotFound(size_t currentState);
 
-    bool IsStackFilled();
-
-    bool IsStateNotFound(int currentState);
-
-    static bool IsCurrentStateInSymbols(const TableRow &row, const std::string &currentSymbol);
+    static bool IsCurrentStateInSymbols(const TableRow& row, const std::string& currentSymbol);
 
     bool IsEnd(int currentState);
 };

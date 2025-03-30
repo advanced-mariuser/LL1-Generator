@@ -23,39 +23,31 @@ void CSVParser::ParseCSV(const std::string &csvFilePath)
         std::string token;
         TableRow row;
 
-        // Парсинг номера строки
         std::getline(ss, token, ';');
         row.number = std::stoi(token);
 
-        // Парсинг нетерминала
         std::getline(ss, row.nonTerminal, ';');
 
-        // Парсинг направляющих символов
         std::getline(ss, token, ';');
         std::stringstream symbolsStream(token);
         std::string symbol;
-        while (std::getline(symbolsStream, symbol, ','))
+        while (std::getline(symbolsStream, symbol, ' '))
         {
             row.symbols.push_back(symbol);
         }
 
-        // Парсинг isShift
         std::getline(ss, token, ';');
         row.isShift = std::stoi(token);
 
-        // Парсинг isError
         std::getline(ss, token, ';');
         row.isError = std::stoi(token);
 
-        // Парсинг pointer с обработкой NULL
         std::getline(ss, token, ';');
         row.pointer = ParsePointer(token);
 
-        // Парсинг isStack
         std::getline(ss, token, ';');
         row.isStack = std::stoi(token);
 
-        // Парсинг isEnd
         std::getline(ss, token, ';');
         row.isEnd = std::stoi(token);
 
@@ -67,12 +59,12 @@ int CSVParser::ParsePointer(const std::string &token)
 {
     if (token == "NULL")
     {
-        return -1; // Используем -1 для обозначения NULL
+        return -1;
     }
     return std::stoi(token);
 }
 
-std::map<int, TableRow> CSVParser::GetTable() const
+std::map<size_t, TableRow> CSVParser::GetTable() const
 {
     return m_table;
 }

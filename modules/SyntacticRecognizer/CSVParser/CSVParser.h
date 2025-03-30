@@ -8,10 +8,10 @@ class CSVParser
 public:
     explicit CSVParser(const std::string &csvFilePath);
 
-    std::map<int, TableRow> GetTable() const;
+    std::map<size_t, TableRow> GetTable() const;
 
 private:
-    std::map<int, TableRow> m_table;
+    std::map<size_t, TableRow> m_table;
 
     void ParseCSV(const std::string &csvFilePath);
 
