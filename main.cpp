@@ -5,22 +5,20 @@
 
 struct Args
 {
-    std::string csvFilePath;
     std::string input;
 };
 
 Args ParseArgs(int argc, char* argv[])
 {
-    if (argc < 3)
+    if (argc < 2)
     {
         throw std::invalid_argument(
-                "Usage: " + std::string(argv[0]) + " <csv_file_path> <input_string>\n"
+                "Usage: " + std::string(argv[0]) + " <input_string>\n"
         );
     }
 
     Args args{};
-    args.csvFilePath = argv[1];
-    args.input = argv[2];
+    args.input = argv[1];
 
     return args;
 }
@@ -31,7 +29,7 @@ int main(int argc, char* argv[])
     {
         Args args = ParseArgs(argc, argv);
 
-        CSVParser csvParser(args.csvFilePath);
+        CSVParser csvParser("modules/ll1_table.csv");
         std::map<size_t, TableRow> table = csvParser.GetTable();
 
         SyntacticRecognizer recognizer(table);

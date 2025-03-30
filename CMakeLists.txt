@@ -7,11 +7,17 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(PROJECT_ROOT "${CMAKE_SOURCE_DIR}")
 
-enable_testing()
+#enable_testing()
 
 option(ENABLE_SyntacticRecognizer "Enable SyntacticRecognizer" ON)
 
 add_executable(ll1-generator main.cpp)
+
+configure_file(
+        ${CMAKE_SOURCE_DIR}/modules/ll1_table.csv
+        ${CMAKE_BINARY_DIR}/modules/ll1_table.csv
+        COPYONLY
+)
 
 target_include_directories(ll1-generator PRIVATE
         ${PROJECT_ROOT}
