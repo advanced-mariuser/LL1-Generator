@@ -10,12 +10,19 @@ set(PROJECT_ROOT "${CMAKE_SOURCE_DIR}")
 #enable_testing()
 
 option(ENABLE_SyntacticRecognizer "Enable SyntacticRecognizer" ON)
+option(ENABLE_Lexer "Enable Lexer" ON)
 
 add_executable(ll1-generator main.cpp)
 
 configure_file(
         ${CMAKE_SOURCE_DIR}/modules/ll1_table.csv
         ${CMAKE_BINARY_DIR}/modules/ll1_table.csv
+        COPYONLY
+)
+
+configure_file(
+        ${CMAKE_SOURCE_DIR}/input.txt
+        ${CMAKE_BINARY_DIR}/input.txt
         COPYONLY
 )
 
@@ -39,6 +46,7 @@ function(add_module_if_enabled module_name)
 endfunction()
 
 add_module_if_enabled(SyntacticRecognizer)
+add_module_if_enabled(Lexer)
 
 #add_subdirectory(tests)
 

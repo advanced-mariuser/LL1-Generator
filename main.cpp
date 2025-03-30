@@ -1,7 +1,9 @@
 #include <iostream>
 #include <stdexcept>
+#include <fstream>
 #include "SyntacticRecognizer.h"
 #include "CSVParser.h"
+#include "Lexer.h"
 
 struct Args
 {
@@ -27,13 +29,19 @@ int main(int argc, char* argv[])
 {
     try
     {
-        Args args = ParseArgs(argc, argv);
+//        Args args = ParseArgs(argc, argv);
+
+        std::ifstream input("input.txt");
+        auto lexer = Lexer();
+
+        lexer.ScanInput(input);
+        auto tokens = lexer.GetTokenList();
 
         CSVParser csvParser("modules/ll1_table.csv");
         std::map<size_t, TableRow> table = csvParser.GetTable();
 
-        SyntacticRecognizer recognizer(table);
-        if (recognizer.Parse(args.input))
+        SyntacticRecognizer recognizer(table, tokens);
+        if (recognizer.Parse())
         {
             std::cout << "Ok. Input is valid." << std::endl;
         } else

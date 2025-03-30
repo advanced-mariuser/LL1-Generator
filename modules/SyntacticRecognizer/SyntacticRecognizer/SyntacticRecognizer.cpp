@@ -2,15 +2,16 @@
 #include <iostream>
 #include <algorithm>
 
-SyntacticRecognizer::SyntacticRecognizer(const std::map<size_t, TableRow>& table)
-        : m_table(table) {}
+SyntacticRecognizer::SyntacticRecognizer(const std::map<size_t, TableRow>& table,
+                                         const std::vector<Token>& tokens)
+        : m_table(table), m_tokens(tokens) {}
 
-bool SyntacticRecognizer::Parse(const std::string& input)
+bool SyntacticRecognizer::Parse()
 {
-    while (m_currentState > 0)
+    while (m_currentState > 0 && m_currentTokenIndex < m_tokens.size())
     {
         PrintTrace("Processing state: " + std::to_string(m_currentState));
-        if (!ProcessState(m_currentState, input))
+        if (!ProcessState(m_currentState))
         {
             return false;
         }
@@ -22,13 +23,12 @@ bool SyntacticRecognizer::Parse(const std::string& input)
         }
     }
 
-    // Если стек пуст, но нет конец разбора
     PrintTrace("Error: Unexpected end of parsing");
     return false;
 }
 
 
-bool SyntacticRecognizer::ProcessState(size_t currentState, const std::string& input)
+bool SyntacticRecognizer::ProcessState(size_t currentState)
 {
     if (IsStateNotFound(currentState))
     {
@@ -37,28 +37,29 @@ bool SyntacticRecognizer::ProcessState(size_t currentState, const std::string& i
     }
 
     const TableRow& row = m_table.at(currentState);
-    PrintTrace("Current state: " + std::to_string(row.number) + ", Non-terminal: " + row.nonTerminal);
+    const Token& currentToken = m_tokens[m_currentTokenIndex];
+    PrintTrace("Current state: " + std::to_string(row.number) + ", Non-terminal: " + row.nonTerminal + " Token: " + currentToken.GetData());
 
-    if (m_inputPosition >= input.length())
+    if (m_currentTokenIndex >= m_tokens.size())
     {
         PrintTrace("Error: Unexpected end of input");
         return false;
     }
 
-    std::string currentSymbol = std::string(1, input[m_inputPosition]);
+    std::string currentSymbol = currentToken.GetData();
     // Проверяем входит ли символ направляющим символам
     bool isSymbolValid = IsCurrentStateInSymbols(row, currentSymbol);
 
     if (row.isError && !isSymbolValid)
     {
-        PrintTrace("Error: Unexpected symbol '" + currentSymbol + "' at position " + std::to_string(m_inputPosition));
+        PrintTrace("Error: Unexpected symbol '" + currentSymbol + "' at position " + std::to_string(m_currentTokenIndex));
         return false;
     }
 
     if (isSymbolValid)
     {
         // Если сдвиг обрабатываем символ
-        if (row.isShift && !HandleShift(input))
+        if (row.isShift && !HandleShift())
         {
             return false;
         }
@@ -74,17 +75,17 @@ bool SyntacticRecognizer::ProcessState(size_t currentState, const std::string& i
     return true;
 }
 
-bool SyntacticRecognizer::HandleShift(const std::string& input)
+bool SyntacticRecognizer::HandleShift()
 {
-    if (m_inputPosition >= input.length())
+    if (m_currentTokenIndex >= m_tokens.size())
     {
         PrintTrace("Error: Unexpected end of input");
         return false;
     }
 
-    std::string currentSymbol = std::string(1, input[m_inputPosition]);
+    std::string currentSymbol = m_tokens[m_currentTokenIndex].GetData();
     PrintTrace("Shift: " + currentSymbol);
-    m_inputPosition++;
+    m_currentTokenIndex++;
     return true;
 }
 
@@ -124,7 +125,7 @@ bool SyntacticRecognizer::IsCurrentStateInSymbols(const TableRow& row, const std
     return std::find(row.symbols.begin(), row.symbols.end(), currentSymbol) != row.symbols.end();
 }
 
-bool SyntacticRecognizer::IsEnd(int currentState)
+bool SyntacticRecognizer::IsEnd(size_t currentState)
 {
     return m_table.at(currentState).isEnd;
 }
