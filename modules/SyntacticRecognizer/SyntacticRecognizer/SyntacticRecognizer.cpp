@@ -27,7 +27,6 @@ bool SyntacticRecognizer::Parse()
     return false;
 }
 
-
 bool SyntacticRecognizer::ProcessState(size_t currentState)
 {
     if (IsStateNotFound(currentState))
@@ -52,7 +51,12 @@ bool SyntacticRecognizer::ProcessState(size_t currentState)
 
     if (row.isError && !isSymbolValid)
     {
-        PrintTrace("Error: Unexpected symbol '" + currentSymbol + "' at position " + std::to_string(m_currentTokenIndex));
+        PrintTrace("Error: Unexpected symbol '" + currentSymbol + "' at position " + std::to_string(currentToken.GetPos()) + "\n Expected: ");
+        for(auto sym : row.symbols)
+        {
+            std::cout << sym << " ";
+        }
+        std::cout << std::endl;
         return false;
     }
 

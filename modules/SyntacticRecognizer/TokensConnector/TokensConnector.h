@@ -34,6 +34,25 @@ public:
             }
         }
 
+        if (token.GetType() == TokenType::LOGICAL)
+        {
+            std::string lowerData = ToLower(token.GetData());
+            if (lowerData == "<=")
+            {
+                token.SetData("l");
+                return token;
+            } else if (lowerData == ">=")
+            {
+                token.SetData("b");
+                return token;
+            } else if (lowerData == "!=")
+            {
+                token.SetData("q");
+                return token;
+            }
+
+        }
+
         static const std::unordered_map<TokenType, std::string> typeToPrefix = {
                 {TokenType::MOD,        "m"},
                 {TokenType::DIV,        "d"},
@@ -43,7 +62,10 @@ public:
                 {TokenType::STRING,     "s"},
                 {TokenType::NUMBER,     "N"},
                 {TokenType::NOT,        "n"},
-                {TokenType::END,        "#"}
+                {TokenType::SEPARATOR,  "#"},
+                {TokenType::ELSE_BLOCK, "J"},
+                {TokenType::IF_STATEMENT, "H"},
+                {TokenType::THEN, "Z"},
         };
 
         auto it = typeToPrefix.find(token.GetType());
