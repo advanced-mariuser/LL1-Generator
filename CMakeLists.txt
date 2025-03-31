@@ -3,14 +3,15 @@ project(ll1-generator)
 
 set(CMAKE_CXX_STANDARD 20)
 
-#list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 set(PROJECT_ROOT "${CMAKE_SOURCE_DIR}")
 
-#enable_testing()
+enable_testing()
 
 option(ENABLE_SyntacticRecognizer "Enable SyntacticRecognizer" ON)
 option(ENABLE_Lexer "Enable Lexer" ON)
+option(ENABLE_TableGenerator "Enable TableGenerator" ON)
 
 add_executable(ll1-generator main.cpp)
 
@@ -33,6 +34,11 @@ target_include_directories(ll1-generator PRIVATE
         ${PROJECT_ROOT}/modules/SyntacticRecognizer/CSVParser
         ${PROJECT_ROOT}/modules/Lexer/Lexer
         ${PROJECT_ROOT}/modules/Lexer/Token
+        ${PROJECT_ROOT}/modules/TableGenerator/Data
+        ${PROJECT_ROOT}/modules/TableGenerator/Generator
+        ${PROJECT_ROOT}/modules/TableGenerator/Parser
+        ${PROJECT_ROOT}/modules/TableGenerator/Processor
+        ${PROJECT_ROOT}/modules/TableGenerator/Utils
 )
 
 function(add_module_if_enabled module_name)
@@ -47,7 +53,8 @@ endfunction()
 
 add_module_if_enabled(SyntacticRecognizer)
 add_module_if_enabled(Lexer)
+add_module_if_enabled(TableGenerator)
 
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
-#add_dependencies(ll1-generator run_tests)
+add_dependencies(ll1-generator run_tests)
