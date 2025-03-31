@@ -34,11 +34,6 @@ target_include_directories(ll1-generator PRIVATE
         ${PROJECT_ROOT}/modules/SyntacticRecognizer/CSVParser
         ${PROJECT_ROOT}/modules/Lexer/Lexer
         ${PROJECT_ROOT}/modules/Lexer/Token
-        ${PROJECT_ROOT}/modules/TableGenerator/Data
-        ${PROJECT_ROOT}/modules/TableGenerator/Generator
-        ${PROJECT_ROOT}/modules/TableGenerator/Parser
-        ${PROJECT_ROOT}/modules/TableGenerator/Processor
-        ${PROJECT_ROOT}/modules/TableGenerator/Utils
 )
 
 function(add_module_if_enabled module_name)

@@ -3,6 +3,7 @@
 #include "TableGenerator/Processor/GrammarProcessor.h"
 #include "TableGenerator/Utils/TableExporter.h"
 #include "TableGenerator/Utils/Utils.h"
+#include "TableGenerator/Data/Grammar.h"
 #include "catch2/catch_test_macros.hpp"
 #include <fstream>
 

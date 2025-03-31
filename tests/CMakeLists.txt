@@ -13,7 +13,23 @@ target_link_libraries(
         unit_tests PRIVATE Catch2::Catch2WithMain
 )
 
-target_include_directories(unit_tests PRIVATE ../modules)
+target_include_directories(unit_tests PRIVATE
+        ../modules
+        ../modules/TableGenerator
+        ../modules/TableGenerator/Data
+        ../modules/TableGenerator/Generator
+        ../modules/TableGenerator/Parser
+        ../modules/TableGenerator/Processor
+        ../modules/TableGenerator/Utils
+        ../modules/SyntacticRecognizer
+        ../modules/Lexer
+)
+
+target_link_libraries(unit_tests PRIVATE
+        TableGenerator
+        SyntacticRecognizer
+        Lexer
+)
 
 include(Catch)
 catch_discover_tests(unit_tests)
