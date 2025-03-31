@@ -1,7 +1,7 @@
 #ifndef SYNTACTICRECOGNIZER_H
 #define SYNTACTICRECOGNIZER_H
 
-#include "TableRow.h"
+#include "Table.h"
 #include "Token.h"
 
 class SyntacticRecognizer

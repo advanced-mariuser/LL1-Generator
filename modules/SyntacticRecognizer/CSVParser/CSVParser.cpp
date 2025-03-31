@@ -33,7 +33,7 @@ void CSVParser::ParseCSV(const std::string &csvFilePath)
         std::string symbol;
         while (std::getline(symbolsStream, symbol, ' '))
         {
-            row.symbols.push_back(symbol);
+            row.guidingSymbols.push_back(symbol);
         }
 
         std::getline(ss, token, ';');

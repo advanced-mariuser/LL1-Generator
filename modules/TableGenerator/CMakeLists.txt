@@ -1,6 +1,6 @@
 add_library(TableGenerator
         Utils/Utils.h
-        Data/Table.h
+        ../Common/Table.h
         Data/Grammar.h
         Parser/GrammarParser.h
         Parser/GrammarParser.cpp
@@ -18,4 +18,5 @@ target_include_directories(TableGenerator PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/Parser
         ${CMAKE_CURRENT_SOURCE_DIR}/Processor
         ${CMAKE_CURRENT_SOURCE_DIR}/Utils
+        ${PROJECT_ROOT}/modules/Common
 )

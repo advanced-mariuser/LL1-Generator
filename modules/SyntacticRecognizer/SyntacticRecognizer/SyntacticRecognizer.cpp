@@ -52,7 +52,7 @@ bool SyntacticRecognizer::ProcessState(size_t currentState)
     if (row.isError && !isSymbolValid)
     {
         PrintTrace("Error: Unexpected symbol '" + currentSymbol + "' at position " + std::to_string(currentToken.GetPos()) + "\n Expected: ");
-        for(auto sym : row.symbols)
+        for(auto sym : row.guidingSymbols)
         {
             std::cout << sym << " ";
         }
@@ -126,7 +126,7 @@ bool SyntacticRecognizer::IsStateNotFound(size_t currentState)
 
 bool SyntacticRecognizer::IsCurrentStateInSymbols(const TableRow& row, const std::string& currentSymbol)
 {
-    return std::find(row.symbols.begin(), row.symbols.end(), currentSymbol) != row.symbols.end();
+    return std::find(row.guidingSymbols.begin(), row.guidingSymbols.end(), currentSymbol) != row.guidingSymbols.end();
 }
 
 bool SyntacticRecognizer::IsEnd(size_t currentState)

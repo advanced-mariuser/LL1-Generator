@@ -10,6 +10,6 @@ target_include_directories(SyntacticRecognizer PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/SyntacticRecognizer
         ${CMAKE_CURRENT_SOURCE_DIR}/CSVParser
         ${CMAKE_CURRENT_SOURCE_DIR}/TokensConnector
-        ${PROJECT_ROOT}/modules
         ${PROJECT_ROOT}/modules/Lexer/Token
+        ${PROJECT_ROOT}/modules/Common
 )
