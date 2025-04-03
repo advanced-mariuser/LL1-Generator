@@ -2,7 +2,7 @@
 
 #include "Token.h"
 
-inline static constexpr const float MAX_SAFE_INTEGER = 9007199254740992.0;
+inline static constexpr const long double MAX_SAFE_INTEGER = 9007199254740992.0L;
 
 inline Token CreateToken(const std::string& data, int row, int pos)
 {
@@ -15,7 +15,12 @@ inline Token CreateToken(const std::string& data, int row, int pos)
             {
                 try
                 {
-                    auto number = std::stof(data);
+                    if (data.length() > 16)
+                    {
+                        throw;
+                    }
+
+                    long double number = std::stold(data);
                     if (number > MAX_SAFE_INTEGER)
                     {
                         throw;

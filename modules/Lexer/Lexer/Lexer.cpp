@@ -9,6 +9,9 @@ void Lexer::ScanInput(std::istream& input)
     int actualRow{};
     int pos = 1;
     std::string lexem;
+    bool hasUnclosedString = false;
+    int unclosedStringRow = 0;
+    int unclosedStringPos = 0;
 
     while (std::getline(input, line))
     {
@@ -105,6 +108,9 @@ void Lexer::ScanInput(std::istream& input)
                     if (m_state == LexerState::DEFAULT)
                     {
                         m_state = LexerState::STRING;
+                        hasUnclosedString = true;
+                        unclosedStringRow = actualRow;
+                        unclosedStringPos = i + 1;
                         PushToken(lexem, row, pos);
                         lexem = line[i];
                         pos = i + 1;
@@ -113,6 +119,7 @@ void Lexer::ScanInput(std::istream& input)
                     else if (m_state == LexerState::STRING)
                     {
                         m_state = LexerState::DEFAULT;
+                        hasUnclosedString = false;
                         lexem += line[i];
                         PushToken(lexem, row, pos);
                         continue;
@@ -128,6 +135,18 @@ void Lexer::ScanInput(std::istream& input)
             PushToken(lexem, row, pos);
             pos = 1;
         }
+    }
+
+    if (hasUnclosedString)
+    {
+        m_tokenList.emplace_back(
+                TokenType::ERROR,
+                "Unclosed string literal starting at " +
+                std::to_string(unclosedStringRow) + ":" +
+                std::to_string(unclosedStringPos),
+                unclosedStringRow,
+                unclosedStringPos
+        );
     }
 
     std::string end = "end";

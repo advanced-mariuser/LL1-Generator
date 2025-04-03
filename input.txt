@@ -1,1 +1,2 @@
-if a > b then a.b.c = 52 else if a52.bc5d = a52*cd52 then
+if a > b then a.b.c = 52 else if a52.bc5d = a52*cd52 then;
+a.b[a.b] = a.b-(a.b([a.b])[a-b][a*b]);
