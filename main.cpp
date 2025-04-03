@@ -1,4 +1,5 @@
 #include "CSVParser.h"
+#include "GrammarOptimizer/GrammarOptimizer.h"
 #include "GrammarProcessor.h"
 #include "Lexer.h"
 #include "SyntacticRecognizer.h"
@@ -67,6 +68,8 @@ void Recognize(const std::string& inputFileName)
 void Optimize(const std::string& inputFileName)
 {
 	//TODO: R4DEONN implement it pls
+	std::fstream fstream(inputFileName);
+	GrammarOptimizer::Optimize(fstream, fstream);
 }
 
 int main(int argc, char* argv[])

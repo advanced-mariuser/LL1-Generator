@@ -12,6 +12,7 @@ enable_testing()
 option(ENABLE_SyntacticRecognizer "Enable SyntacticRecognizer" ON)
 option(ENABLE_Lexer "Enable Lexer" ON)
 option(ENABLE_TableGenerator "Enable TableGenerator" ON)
+option(ENABLE_GrammarOptimizer "Enable GrammarOptimizer" ON)
 
 add_executable(ll1-generator main.cpp)
 
@@ -49,6 +50,7 @@ endfunction()
 add_module_if_enabled(SyntacticRecognizer)
 add_module_if_enabled(Lexer)
 add_module_if_enabled(TableGenerator)
+add_module_if_enabled(GrammarOptimizer)
 
 add_subdirectory(tests)
 
